@@ -5,17 +5,20 @@
 <body>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="#">
+        <form action="{{route('register')}}" method="POST">
+            @csrf
             <h1>Create Account</h1>
-            <input type="text" name="name" placeholder="Username" />
+            <input type="text" name="username" placeholder="Username" />
             <input type="password" name="password" placeholder="Password" />
-            <button>Ro'yxatdan o'tish</button>
+            <input type="password" name="password_confirmation" placeholder="Password Confirm" />
+            <button>Register</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="#">
+        <form action="{{route('login')}}" method="POST">
+            @csrf
             <h1>Log In</h1>
-            <input type="text" name="name" placeholder="Username" />
+            <input type="text" name="username" placeholder="Username" />
             <input type="password" name="password" placeholder="Password" />
             <button>Login</button>
         </form>
@@ -37,5 +40,7 @@
 </div>
 
 <script src="assets/script.js"></script>
+
+
 </body>
 </html>
