@@ -4,32 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Models\User;
-use http\Env\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Services\LoginService;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    protected $loginService;
 
-    public function login(LoginRequest $request){
-        if(Auth::attempt(['username'=>$request->username,'password'=>$request->password],$request->remember)){
-                return redirect()->intended(route('dashboard'));
+    public function __construct(LoginService $loginService)
+    {
+        $this->loginService = $loginService;
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $data = $request->only(['username', 'password']);
+
+        if ($this->loginService->login($data)) {
+            return redirect()->intended(route('tasks.index'));
         }
-        return redirect()->back()->with('error','Username or password is incorrect');
+
+        return redirect()->back()->with('error', 'Username or password is incorrect');
     }
-    public function register(RegisterRequest $request){
-        $user = User::create([
-            'username'=>$request['username'],
-            'password'=>Hash::make($request['password']),
-        ]);
-        auth()->login($user);
-        return redirect()->intended('dashboard');
+
+    public function register(RegisterRequest $request)
+    {
+        $data = $request->only(['username', 'password']);
+        $this->loginService->register($data);
+
+        return redirect()->intended(route('tasks.index'));
     }
-    public function logout(Request $request){
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+
+    public function logout(Request $request)
+    {
+        $this->loginService->logout($request);
         return redirect('/');
     }
 }

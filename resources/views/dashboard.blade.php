@@ -1,3 +1,4 @@
-<h1>
-    asdsadas
-</h1>
+@extends('layouts.app')
+@section('content')
+
+@endsection

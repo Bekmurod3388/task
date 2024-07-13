@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
@@ -12,7 +13,8 @@ Route::get('/', function () {
 #login
 Route::post('/login',[LoginController::class,'login'])->name('login');
 Route::post('/register',[LoginController::class,'register'])->name('register');
-Route::post('/logout',[LoginController::class,'logout'])->name('logout');
+
 Route::middleware(['auth'])->group(function (){
-    Route::view('/dashboard','dashboard')->name('dashboard');
+    Route::resource('/tasks',TaskController::class);
+    Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 });
