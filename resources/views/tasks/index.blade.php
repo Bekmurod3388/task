@@ -26,6 +26,7 @@
                         <table class="table">
                             <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Status</th>
@@ -35,6 +36,7 @@
                             <tbody>
                             @foreach($tasks as $task)
                                 <tr>
+                                    <td>{{$task->id}}</td>
                                     <td>{{ $task->title }}</td>
                                     <td>{{ $task->description }}</td>
                                     <td>{{ $task->status }}</td>

@@ -15,7 +15,9 @@ class LoginController extends Controller
     {
         $this->loginService = $loginService;
     }
-
+    public function loginPage(){
+        return view('login');
+    }
     public function login(LoginRequest $request)
     {
         $data = $request->only(['username', 'password']);
